@@ -1,0 +1,564 @@
+{
+  "version": 2,
+  "metaColumnWidth": 1,
+  "categories": [
+    {
+      "id": "Hat",
+      "label": "Hat",
+      "availability": "always",
+      "description": "Always available on every hat sheet."
+    },
+    {
+      "id": "Quack",
+      "label": "Quack",
+      "availability": "quack",
+      "description": "Available when the sheet includes a quack frame."
+    },
+    {
+      "id": "Cape",
+      "label": "Cape",
+      "availability": "cape",
+      "description": "Available when the cape frame is present."
+    },
+    {
+      "id": "Particle",
+      "label": "Particle",
+      "availability": "particles",
+      "description": "Available when particle space is reserved."
+    }
+  ],
+  "definitions": [
+    {
+      "id": 0,
+      "name": "HatIsTail",
+      "category": "Hat",
+      "description": "Enables the hat-tail behavior.",
+      "gifPath": "",
+      "activation": { "mode": "boolean", "label": "Enable", "default": false },
+      "fields": [],
+      "channels": {
+        "r": { "label": "Metapixel Id", "mode": "literal", "value": 0 },
+        "g": { "label": "Unused", "mode": "literal", "value": 0 },
+        "b": { "label": "Unused", "mode": "literal", "value": 0 }
+      }
+    },
+    {
+      "id": 1,
+      "name": "HatOffset",
+      "category": "Hat",
+      "description": "Offsets the hat horizontally and vertically in pixels.",
+      "gifPath": "",
+      "activation": { "mode": "optional", "label": "Active", "default": false },
+      "fields": [
+        { "key": "x", "label": "X Offset", "control": "range", "dataType": "integer", "default": 0, "min": -16, "max": 16, "step": 1 },
+        { "key": "y", "label": "Y Offset", "control": "range", "dataType": "integer", "default": 0, "min": -16, "max": 16, "step": 1 }
+      ],
+      "channels": {
+        "r": { "label": "Metapixel Id", "mode": "literal", "value": 1 },
+        "g": { "label": "Horizontal Offset", "mode": "center-plus", "source": "x", "center": 128, "clampMin": 112, "clampMax": 144 },
+        "b": { "label": "Vertical Offset", "mode": "center-plus", "source": "y", "center": 128, "clampMin": 112, "clampMax": 144 }
+      }
+    },
+    {
+      "id": 2,
+      "name": "UseDuckColor",
+      "category": "Hat",
+      "description": "Maps white and gray hat pixels to the duck palette.",
+      "gifPath": "",
+      "activation": { "mode": "boolean", "label": "Enable", "default": false },
+      "fields": [],
+      "channels": {
+        "r": { "label": "Metapixel Id", "mode": "literal", "value": 2 },
+        "g": { "label": "Unused", "mode": "literal", "value": 0 },
+        "b": { "label": "Unused", "mode": "literal", "value": 0 }
+      }
+    },
+    {
+      "id": 3,
+      "name": "HatNoFlip",
+      "category": "Hat",
+      "description": "Prevents the hat from flipping when the duck turns.",
+      "gifPath": "",
+      "activation": { "mode": "boolean", "label": "Enable", "default": false },
+      "fields": [],
+      "channels": {
+        "r": { "label": "Metapixel Id", "mode": "literal", "value": 3 },
+        "g": { "label": "Unused", "mode": "literal", "value": 0 },
+        "b": { "label": "Unused", "mode": "literal", "value": 0 }
+      }
+    },
+    {
+      "id": 60,
+      "name": "QuackDelay",
+      "category": "Quack",
+      "description": "Delay in seconds before the quack frame appears.",
+      "gifPath": "",
+      "activation": { "mode": "optional", "label": "Active", "default": false },
+      "fields": [
+        { "key": "value", "label": "Delay", "control": "range", "dataType": "float", "default": 0, "min": 0, "max": 2, "step": 0.01 }
+      ],
+      "channels": {
+        "r": { "label": "Metapixel Id", "mode": "literal", "value": 60 },
+        "g": { "label": "Delay", "mode": "normalized", "source": "value", "min": 0, "max": 2, "clampMin": 0, "clampMax": 255 },
+        "b": { "label": "Unused", "mode": "literal", "value": 0 }
+      }
+    },
+    {
+      "id": 61,
+      "name": "QuackHold",
+      "category": "Quack",
+      "description": "Minimum time in seconds that the quack frame is held.",
+      "gifPath": "",
+      "activation": { "mode": "optional", "label": "Active", "default": false },
+      "fields": [
+        { "key": "value", "label": "Hold", "control": "range", "dataType": "float", "default": 0, "min": 0, "max": 2, "step": 0.01 }
+      ],
+      "channels": {
+        "r": { "label": "Metapixel Id", "mode": "literal", "value": 61 },
+        "g": { "label": "Hold", "mode": "normalized", "source": "value", "min": 0, "max": 2, "clampMin": 0, "clampMax": 255 },
+        "b": { "label": "Unused", "mode": "literal", "value": 0 }
+      }
+    },
+    {
+      "id": 62,
+      "name": "QuackSuppressRequack",
+      "category": "Quack",
+      "description": "Prevents re-quacking until the animation finishes.",
+      "gifPath": "",
+      "activation": { "mode": "boolean", "label": "Enable", "default": false },
+      "fields": [],
+      "channels": {
+        "r": { "label": "Metapixel Id", "mode": "literal", "value": 62 },
+        "g": { "label": "Unused", "mode": "literal", "value": 0 },
+        "b": { "label": "Unused", "mode": "literal", "value": 0 }
+      }
+    },
+    {
+      "id": 70,
+      "name": "WetLips",
+      "category": "Quack",
+      "description": "Changes the quack sound effect to wet lips.",
+      "gifPath": "",
+      "activation": { "mode": "boolean", "label": "Enable", "default": false },
+      "fields": [],
+      "channels": {
+        "r": { "label": "Metapixel Id", "mode": "literal", "value": 70 },
+        "g": { "label": "Unused", "mode": "literal", "value": 0 },
+        "b": { "label": "Unused", "mode": "literal", "value": 0 }
+      }
+    },
+    {
+      "id": 71,
+      "name": "MechanicalLips",
+      "category": "Quack",
+      "description": "Changes the quack sound effect to mechanical lips.",
+      "gifPath": "",
+      "activation": { "mode": "boolean", "label": "Enable", "default": false },
+      "fields": [],
+      "channels": {
+        "r": { "label": "Metapixel Id", "mode": "literal", "value": 71 },
+        "g": { "label": "Unused", "mode": "literal", "value": 0 },
+        "b": { "label": "Unused", "mode": "literal", "value": 0 }
+      }
+    },
+    {
+      "id": 10,
+      "name": "CapeOffset",
+      "category": "Cape",
+      "description": "Offsets the cape horizontally and vertically in pixels.",
+      "gifPath": "",
+      "activation": { "mode": "optional", "label": "Active", "default": false },
+      "fields": [
+        { "key": "x", "label": "X Offset", "control": "range", "dataType": "integer", "default": 0, "min": -16, "max": 16, "step": 1 },
+        { "key": "y", "label": "Y Offset", "control": "range", "dataType": "integer", "default": 0, "min": -16, "max": 16, "step": 1 }
+      ],
+      "channels": {
+        "r": { "label": "Metapixel Id", "mode": "literal", "value": 10 },
+        "g": { "label": "Horizontal Offset", "mode": "center-plus", "source": "x", "center": 128, "clampMin": 112, "clampMax": 144 },
+        "b": { "label": "Vertical Offset", "mode": "center-plus", "source": "y", "center": 128, "clampMin": 112, "clampMax": 144 }
+      }
+    },
+    {
+      "id": 11,
+      "name": "CapeIsForeground",
+      "category": "Cape",
+      "description": "Draws the cape in front of the duck.",
+      "gifPath": "",
+      "activation": { "mode": "boolean", "label": "Enable", "default": false },
+      "fields": [],
+      "channels": {
+        "r": { "label": "Metapixel Id", "mode": "literal", "value": 11 },
+        "g": { "label": "Unused", "mode": "literal", "value": 0 },
+        "b": { "label": "Unused", "mode": "literal", "value": 0 }
+      }
+    },
+    {
+      "id": 12,
+      "name": "CapeSwayModifier",
+      "category": "Cape",
+      "description": "Controls cape sway and length modifiers.",
+      "gifPath": "",
+      "activation": { "mode": "optional", "label": "Active", "default": false },
+      "fields": [
+        { "key": "sway", "label": "Sway", "control": "range", "dataType": "float", "default": 0, "min": -1, "max": 1, "step": 0.01 },
+        { "key": "length", "label": "Length", "control": "range", "dataType": "float", "default": 0, "min": -1, "max": 1, "step": 0.01 }
+      ],
+      "channels": {
+        "r": { "label": "Metapixel Id", "mode": "literal", "value": 12 },
+        "g": { "label": "Sway", "mode": "normalized", "source": "sway", "min": -1, "max": 1, "clampMin": 0, "clampMax": 255 },
+        "b": { "label": "Length", "mode": "normalized", "source": "length", "min": -1, "max": 1, "clampMin": 0, "clampMax": 255 }
+      }
+    },
+    {
+      "id": 13,
+      "name": "CapeWiggleModifier",
+      "category": "Cape",
+      "description": "Affects wind wiggle for the cape.",
+      "gifPath": "",
+      "activation": { "mode": "optional", "label": "Active", "default": false },
+      "fields": [
+        { "key": "wiggle", "label": "Wiggle", "control": "range", "dataType": "float", "default": 0, "min": -1, "max": 1, "step": 0.01 }
+      ],
+      "channels": {
+        "r": { "label": "Metapixel Id", "mode": "literal", "value": 13 },
+        "g": { "label": "Wiggle", "mode": "normalized", "source": "wiggle", "min": -1, "max": 1, "clampMin": 0, "clampMax": 255 },
+        "b": { "label": "Unused", "mode": "literal", "value": 0 }
+      }
+    },
+    {
+      "id": 14,
+      "name": "CapeTaperStart",
+      "category": "Cape",
+      "description": "Controls cape narrowness at the top.",
+      "gifPath": "",
+      "activation": { "mode": "optional", "label": "Active", "default": false },
+      "fields": [
+        { "key": "value", "label": "Top Taper", "control": "range", "dataType": "float", "default": 0, "min": 0, "max": 1, "step": 0.01 }
+      ],
+      "channels": {
+        "r": { "label": "Metapixel Id", "mode": "literal", "value": 14 },
+        "g": { "label": "Top Taper", "mode": "normalized", "source": "value", "min": 0, "max": 1, "clampMin": 0, "clampMax": 255 },
+        "b": { "label": "Unused", "mode": "literal", "value": 0 }
+      }
+    },
+    {
+      "id": 15,
+      "name": "CapeTaperEnd",
+      "category": "Cape",
+      "description": "Controls cape narrowness at the bottom.",
+      "gifPath": "",
+      "activation": { "mode": "optional", "label": "Active", "default": false },
+      "fields": [
+        { "key": "value", "label": "Bottom Taper", "control": "range", "dataType": "float", "default": 0, "min": 0, "max": 1, "step": 0.01 }
+      ],
+      "channels": {
+        "r": { "label": "Metapixel Id", "mode": "literal", "value": 15 },
+        "g": { "label": "Bottom Taper", "mode": "normalized", "source": "value", "min": 0, "max": 1, "clampMin": 0, "clampMax": 255 },
+        "b": { "label": "Unused", "mode": "literal", "value": 0 }
+      }
+    },
+    {
+      "id": 16,
+      "name": "CapeAlphaStart",
+      "category": "Cape",
+      "description": "Controls cape opacity at the top.",
+      "gifPath": "",
+      "activation": { "mode": "optional", "label": "Active", "default": false },
+      "fields": [
+        { "key": "value", "label": "Top Alpha", "control": "range", "dataType": "float", "default": 0, "min": 0, "max": 1, "step": 0.01 }
+      ],
+      "channels": {
+        "r": { "label": "Metapixel Id", "mode": "literal", "value": 16 },
+        "g": { "label": "Top Alpha", "mode": "normalized", "source": "value", "min": 0, "max": 1, "clampMin": 0, "clampMax": 255 },
+        "b": { "label": "Unused", "mode": "literal", "value": 0 }
+      }
+    },
+    {
+      "id": 17,
+      "name": "CapeAlphaEnd",
+      "category": "Cape",
+      "description": "Controls cape opacity at the bottom.",
+      "gifPath": "",
+      "activation": { "mode": "optional", "label": "Active", "default": false },
+      "fields": [
+        { "key": "value", "label": "Bottom Alpha", "control": "range", "dataType": "float", "default": 0, "min": 0, "max": 1, "step": 0.01 }
+      ],
+      "channels": {
+        "r": { "label": "Metapixel Id", "mode": "literal", "value": 17 },
+        "g": { "label": "Bottom Alpha", "mode": "normalized", "source": "value", "min": 0, "max": 1, "clampMin": 0, "clampMax": 255 },
+        "b": { "label": "Unused", "mode": "literal", "value": 0 }
+      }
+    },
+    {
+      "id": 20,
+      "name": "CapeIsTrail",
+      "category": "Cape",
+      "description": "Turns the cape into a trail effect.",
+      "gifPath": "",
+      "activation": { "mode": "boolean", "label": "Enable", "default": false },
+      "fields": [],
+      "channels": {
+        "r": { "label": "Metapixel Id", "mode": "literal", "value": 20 },
+        "g": { "label": "Unused", "mode": "literal", "value": 0 },
+        "b": { "label": "Unused", "mode": "literal", "value": 0 }
+      }
+    },
+    {
+      "id": 30,
+      "name": "ParticleEmitterOffset",
+      "category": "Particle",
+      "description": "Offsets the particle spawn point from the hat center.",
+      "gifPath": "",
+      "activation": { "mode": "optional", "label": "Active", "default": false },
+      "fields": [
+        { "key": "x", "label": "X Offset", "control": "range", "dataType": "integer", "default": 0, "min": -16, "max": 16, "step": 1 },
+        { "key": "y", "label": "Y Offset", "control": "range", "dataType": "integer", "default": 0, "min": -16, "max": 16, "step": 1 }
+      ],
+      "channels": {
+        "r": { "label": "Metapixel Id", "mode": "literal", "value": 30 },
+        "g": { "label": "Horizontal Offset", "mode": "center-plus", "source": "x", "center": 128, "clampMin": 112, "clampMax": 144 },
+        "b": { "label": "Vertical Offset", "mode": "center-plus", "source": "y", "center": 128, "clampMin": 112, "clampMax": 144 }
+      }
+    },
+    {
+      "id": 31,
+      "name": "ParticleDefaultBehavior",
+      "category": "Particle",
+      "description": "Overrides the rest of the particle settings with a predefined behavior.",
+      "gifPath": "",
+      "activation": { "mode": "optional", "label": "Active", "default": false },
+      "fields": [
+        {
+          "key": "behavior",
+          "label": "Behavior",
+          "control": "select",
+          "dataType": "enum",
+          "default": 0,
+          "options": [
+            { "label": "No Behavior", "value": 0 },
+            { "label": "Spit", "value": 1 },
+            { "label": "Burst", "value": 2 },
+            { "label": "Halo", "value": 3 },
+            { "label": "Exclamation", "value": 4 }
+          ]
+        }
+      ],
+      "channels": {
+        "r": { "label": "Metapixel Id", "mode": "literal", "value": 31 },
+        "g": { "label": "Behavior", "mode": "field", "source": "behavior", "clampMin": 0, "clampMax": 255 },
+        "b": { "label": "Unused", "mode": "literal", "value": 0 }
+      }
+    },
+    {
+      "id": 32,
+      "name": "ParticleEmitShape",
+      "category": "Particle",
+      "description": "Chooses the emitter shape and how particles spawn from it.",
+      "gifPath": "",
+      "activation": { "mode": "optional", "label": "Active", "default": false },
+      "fields": [
+        {
+          "key": "shape",
+          "label": "Shape",
+          "control": "select",
+          "dataType": "enum",
+          "default": 0,
+          "options": [
+            { "label": "Point", "value": 0 },
+            { "label": "Circle", "value": 1 },
+            { "label": "Box", "value": 2 }
+          ]
+        },
+        {
+          "key": "spawnRelation",
+          "label": "Spawn Relation",
+          "control": "select",
+          "dataType": "enum",
+          "default": 0,
+          "options": [
+            { "label": "Border Random", "value": 0 },
+            { "label": "Fill Random", "value": 1 },
+            { "label": "Border Uniform", "value": 2 }
+          ]
+        }
+      ],
+      "channels": {
+        "r": { "label": "Metapixel Id", "mode": "literal", "value": 32 },
+        "g": { "label": "Shape", "mode": "field", "source": "shape", "clampMin": 0, "clampMax": 255 },
+        "b": { "label": "Spawn Relation", "mode": "field", "source": "spawnRelation", "clampMin": 0, "clampMax": 255 }
+      }
+    },
+    {
+      "id": 33,
+      "name": "ParticleEmitShapeSize",
+      "category": "Particle",
+      "description": "Sets the width and height of the particle emitter in pixels.",
+      "gifPath": "",
+      "activation": { "mode": "optional", "label": "Active", "default": false },
+      "fields": [
+        { "key": "width", "label": "Width", "control": "range", "dataType": "integer", "default": 0, "min": 0, "max": 24, "step": 1 },
+        { "key": "height", "label": "Height", "control": "range", "dataType": "integer", "default": 0, "min": 0, "max": 24, "step": 1 }
+      ],
+      "channels": {
+        "r": { "label": "Metapixel Id", "mode": "literal", "value": 33 },
+        "g": { "label": "Emitter Width", "mode": "center-minus", "source": "width", "center": 128, "clampMin": 104, "clampMax": 128 },
+        "b": { "label": "Emitter Height", "mode": "center-minus", "source": "height", "center": 128, "clampMin": 104, "clampMax": 128 }
+      }
+    },
+    {
+      "id": 34,
+      "name": "ParticleCount",
+      "category": "Particle",
+      "description": "Sets how many particles spawn per quack.",
+      "gifPath": "",
+      "activation": { "mode": "optional", "label": "Active", "default": false },
+      "fields": [
+        { "key": "count", "label": "Count", "control": "range", "dataType": "integer", "default": 0, "min": 0, "max": 8, "step": 1 }
+      ],
+      "channels": {
+        "r": { "label": "Metapixel Id", "mode": "literal", "value": 34 },
+        "g": { "label": "Count", "mode": "field", "source": "count", "clampMin": 0, "clampMax": 255 },
+        "b": { "label": "Unused", "mode": "literal", "value": 0 }
+      }
+    },
+    {
+      "id": 35,
+      "name": "ParticleLifespan",
+      "category": "Particle",
+      "description": "Sets the particle lifespan in seconds.",
+      "gifPath": "",
+      "activation": { "mode": "optional", "label": "Active", "default": false },
+      "fields": [
+        { "key": "value", "label": "Lifespan", "control": "range", "dataType": "float", "default": 0, "min": 0, "max": 2, "step": 0.01 }
+      ],
+      "channels": {
+        "r": { "label": "Metapixel Id", "mode": "literal", "value": 35 },
+        "g": { "label": "Lifespan", "mode": "normalized", "source": "value", "min": 0, "max": 2, "clampMin": 0, "clampMax": 255 },
+        "b": { "label": "Unused", "mode": "literal", "value": 0 }
+      }
+    },
+    {
+      "id": 36,
+      "name": "ParticleVelocity",
+      "category": "Particle",
+      "description": "Sets the initial particle velocity.",
+      "gifPath": "",
+      "activation": { "mode": "optional", "label": "Active", "default": false },
+      "fields": [
+        { "key": "x", "label": "Velocity X", "control": "range", "dataType": "float", "default": 0, "min": -1, "max": 1, "step": 0.01 },
+        { "key": "y", "label": "Velocity Y", "control": "range", "dataType": "float", "default": 0, "min": -1, "max": 1, "step": 0.01 }
+      ],
+      "channels": {
+        "r": { "label": "Metapixel Id", "mode": "literal", "value": 36 },
+        "g": { "label": "Velocity X", "mode": "normalized", "source": "x", "min": -1, "max": 1, "clampMin": 0, "clampMax": 255 },
+        "b": { "label": "Velocity Y", "mode": "normalized", "source": "y", "min": -1, "max": 1, "clampMin": 0, "clampMax": 255 }
+      }
+    },
+    {
+      "id": 38,
+      "name": "ParticleFriction",
+      "category": "Particle",
+      "description": "Sets per-frame friction on both axes.",
+      "gifPath": "",
+      "activation": { "mode": "optional", "label": "Active", "default": false },
+      "fields": [
+        { "key": "x", "label": "Friction X", "control": "range", "dataType": "float", "default": 0, "min": 0, "max": 2, "step": 0.01 },
+        { "key": "y", "label": "Friction Y", "control": "range", "dataType": "float", "default": 0, "min": 0, "max": 2, "step": 0.01 }
+      ],
+      "channels": {
+        "r": { "label": "Metapixel Id", "mode": "literal", "value": 38 },
+        "g": { "label": "Friction X", "mode": "normalized", "source": "x", "min": 0, "max": 2, "clampMin": 0, "clampMax": 255 },
+        "b": { "label": "Friction Y", "mode": "normalized", "source": "y", "min": 0, "max": 2, "clampMin": 0, "clampMax": 255 }
+      }
+    },
+    {
+      "id": 39,
+      "name": "ParticleAlpha",
+      "category": "Particle",
+      "description": "Sets start and end alpha for particles.",
+      "gifPath": "",
+      "activation": { "mode": "optional", "label": "Active", "default": false },
+      "fields": [
+        { "key": "start", "label": "Start Alpha", "control": "range", "dataType": "float", "default": 0, "min": 0, "max": 2, "step": 0.01 },
+        { "key": "end", "label": "End Alpha", "control": "range", "dataType": "float", "default": 0, "min": 0, "max": 2, "step": 0.01 }
+      ],
+      "channels": {
+        "r": { "label": "Metapixel Id", "mode": "literal", "value": 39 },
+        "g": { "label": "Start Alpha", "mode": "normalized", "source": "start", "min": 0, "max": 2, "clampMin": 0, "clampMax": 255 },
+        "b": { "label": "End Alpha", "mode": "normalized", "source": "end", "min": 0, "max": 2, "clampMin": 0, "clampMax": 255 }
+      }
+    },
+    {
+      "id": 45,
+      "name": "ParticleAnimated",
+      "category": "Particle",
+      "description": "Animates particles through the four particle frames.",
+      "gifPath": "",
+      "activation": { "mode": "boolean", "label": "Enable", "default": false },
+      "fields": [],
+      "channels": {
+        "r": { "label": "Metapixel Id", "mode": "literal", "value": 45 },
+        "g": { "label": "Unused", "mode": "literal", "value": 0 },
+        "b": { "label": "Unused", "mode": "literal", "value": 0 }
+      }
+    },
+    {
+      "id": 46,
+      "name": "ParticleAnimationLoop",
+      "category": "Particle",
+      "description": "Loops the four-frame particle animation.",
+      "gifPath": "",
+      "activation": { "mode": "boolean", "label": "Enable", "default": false },
+      "fields": [],
+      "channels": {
+        "r": { "label": "Metapixel Id", "mode": "literal", "value": 46 },
+        "g": { "label": "Unused", "mode": "literal", "value": 0 },
+        "b": { "label": "Unused", "mode": "literal", "value": 0 }
+      }
+    },
+    {
+      "id": 47,
+      "name": "ParticleAnimationRandomFrame",
+      "category": "Particle",
+      "description": "Starts animated particles on a random frame.",
+      "gifPath": "",
+      "activation": { "mode": "boolean", "label": "Enable", "default": false },
+      "fields": [],
+      "channels": {
+        "r": { "label": "Metapixel Id", "mode": "literal", "value": 47 },
+        "g": { "label": "Unused", "mode": "literal", "value": 0 },
+        "b": { "label": "Unused", "mode": "literal", "value": 0 }
+      }
+    },
+    {
+      "id": 48,
+      "name": "ParticleAnimationSpeed",
+      "category": "Particle",
+      "description": "Controls the speed of the particle frame animation.",
+      "gifPath": "",
+      "activation": { "mode": "optional", "label": "Active", "default": false },
+      "fields": [
+        { "key": "value", "label": "Animation Speed", "control": "range", "dataType": "float", "default": 0, "min": 0, "max": 1, "step": 0.01 }
+      ],
+      "channels": {
+        "r": { "label": "Metapixel Id", "mode": "literal", "value": 48 },
+        "g": { "label": "Animation Speed", "mode": "normalized", "source": "value", "min": 0, "max": 1, "clampMin": 0, "clampMax": 255 },
+        "b": { "label": "Unused", "mode": "literal", "value": 0 }
+      }
+    },
+    {
+      "id": 49,
+      "name": "ParticleAnchorOrientation",
+      "category": "Particle",
+      "description": "Orients particles using the hat rotation.",
+      "gifPath": "",
+      "activation": { "mode": "boolean", "label": "Enable", "default": false },
+      "fields": [],
+      "channels": {
+        "r": { "label": "Metapixel Id", "mode": "literal", "value": 49 },
+        "g": { "label": "Unused", "mode": "literal", "value": 0 },
+        "b": { "label": "Unused", "mode": "literal", "value": 0 }
+      }
+    }
+  ]
+}

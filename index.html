@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tailor Made</title>
+    <link rel="icon" type="image/png" href="./logo.png" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand-block">
+          <img class="brand-logo" src="./logo.png" alt="Tailor Made logo" width="100" height="100" />
+          <div class="brand-copy">
+            <h1>Tailor Made</h1>
+          </div>
+        </div>
+
+        <div class="topbar-actions">
+          <button id="undoBtn" class="ghost-button compact-button topbar-icon-button" type="button" aria-label="Undo" title="Undo"></button>
+          <button id="redoBtn" class="ghost-button compact-button topbar-icon-button" type="button" aria-label="Redo" title="Redo"></button>
+          <button id="fitViewBtn" class="ghost-button compact-button topbar-icon-button" type="button" aria-label="Fit View" title="Fit View"></button>
+          <button id="importHatBtn" class="ghost-button" type="button">Import Hat</button>
+          <button id="downloadBtn" class="primary-button" type="button">Download Hat</button>
+          <button id="accentThemeBtn" class="ghost-button compact-button topbar-icon-button topbar-theme-button" type="button" aria-label="Accent Color" title="Accent Color"></button>
+        </div>
+      </header>
+
+      <main class="workspace">
+        <aside class="layers-sidebar">
+          <section class="sidebar-card sidebar-card-body">
+            <div class="sidebar-title-row">
+              <h2>Layers</h2>
+              <button id="addLayerBtn" class="icon-button layer-add-button" type="button" aria-label="Add Layer" title="Add Layer"></button>
+            </div>
+
+            <div class="layer-list" id="layerList"></div>
+          </section>
+        </aside>
+
+        <section class="editor-shell" id="editorShell">
+          <div class="editor-topbar">
+            <div class="tab-strip" id="tabStrip">
+              <button class="tab-pill" data-tab="setup" type="button">Setup</button>
+              <button class="tab-pill" data-tab="tools" type="button">Tools</button>
+              <button class="tab-pill" data-tab="scene" type="button">Scene</button>
+              <button class="tab-pill" data-tab="overlays" type="button">Overlays</button>
+              <button class="tab-pill" data-tab="metapixels" type="button">Metapixels</button>
+              <button class="tab-pill tab-pill-icon" id="infoTabBtn" data-tab="info" type="button" aria-label="Info" title="Info"></button>
+            </div>
+
+            <div class="editor-readouts">
+              <span class="readout-pill" id="toolReadout">Pen</span>
+              <span class="readout-pill" id="zoomReadout">12x</span>
+              <span class="readout-pill" id="historyReadout">0 / 0</span>
+            </div>
+          </div>
+
+          <section class="control-tray is-hidden" id="controlTray" aria-hidden="true">
+            <div class="tray-panel" data-tray="setup">
+              <div class="drawer-stack">
+                <label class="field">
+                  <span class="field-label">Hat Type</span>
+                  <select id="layoutSelect">
+                    <option value="basic">Basic Hat</option>
+                    <option value="common">Common Hat</option>
+                    <option value="cape">Common Hat + Cape</option>
+                  </select>
+                </label>
+
+                <div class="mini-stats">
+                  <div class="mini-stat">
+                    <span>Art</span>
+                    <strong id="setupArtSizeLabel">32 x 32</strong>
+                  </div>
+                  <div class="mini-stat">
+                    <span>Export</span>
+                    <strong id="setupExportSizeLabel">32 x 32</strong>
+                  </div>
+                </div>
+
+                <label class="toggle-row compact-toggle">
+                  <span class="toggle-copy"><strong>Custom Rock</strong></span>
+                  <span class="switch-control">
+                    <input id="rockToggle" type="checkbox" />
+                    <span class="switch-ui" aria-hidden="true"></span>
+                  </span>
+                </label>
+
+                <label class="toggle-row compact-toggle">
+                  <span class="toggle-copy"><strong>Particles</strong></span>
+                  <span class="switch-control">
+                    <input id="particlesToggle" type="checkbox" />
+                    <span class="switch-ui" aria-hidden="true"></span>
+                  </span>
+                </label>
+              </div>
+            </div>
+
+            <div class="tray-panel" data-tray="tools">
+              <div class="drawer-stack drawer-tools">
+                <div class="tool-grid" id="toolButtons">
+                  <button class="tool-button" data-tool="select" type="button">Select</button>
+                  <button class="tool-button is-active" data-tool="pen" type="button">Pen</button>
+                  <button class="tool-button" data-tool="eraser" type="button">Eraser</button>
+                  <button class="tool-button" data-tool="picker" type="button">Picker</button>
+                </div>
+
+                <div class="tool-secondary-actions">
+                  <button id="pasteSelectionBtn" class="ghost-button compact-button" type="button" disabled>Paste</button>
+                </div>
+
+                <label class="field">
+                  <span class="field-label">Active Color</span>
+                  <div class="color-row">
+                    <input id="colorInput" type="color" value="#ff8a3d" />
+                    <code id="colorValue">#FF8A3D</code>
+                    <button id="saveColorBtn" class="ghost-button compact-button" type="button">Save</button>
+                  </div>
+                </label>
+
+                <div class="palette-grid" id="paletteGrid"></div>
+              </div>
+            </div>
+
+            <div class="tray-panel" data-tray="scene">
+              <div class="drawer-stack">
+                <label class="field">
+                  <span class="field-label">Texture</span>
+                  <select id="backgroundTextureSelect">
+                    <option value="checker">Checker</option>
+                    <option value="fabric">Fabric</option>
+                    <option value="paper">Paper</option>
+                    <option value="blueprint">Blueprint</option>
+                    <option value="none">Solid</option>
+                  </select>
+                </label>
+
+                <label class="field">
+                  <span class="field-label">Color</span>
+                  <div class="color-row">
+                    <input id="backgroundColorInput" type="color" value="#16263a" />
+                    <code id="backgroundColorValue">#16263A</code>
+                  </div>
+                </label>
+
+                <div class="field">
+                  <span class="field-label">Image</span>
+                  <div class="scene-actions">
+                    <button id="uploadBackgroundBtn" class="ghost-button compact-button" type="button">Upload</button>
+                    <button id="clearBackgroundBtn" class="ghost-button compact-button" type="button">Clear</button>
+                  </div>
+                  <small id="backgroundImageName" class="field-note">No image.</small>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="tray-panel" data-tray="overlays">
+              <div class="drawer-stack">
+                <label class="toggle-row compact-toggle">
+                  <span class="toggle-copy"><strong>Pixel Grid</strong></span>
+                  <span class="switch-control">
+                    <input id="gridToggle" type="checkbox" checked />
+                    <span class="switch-ui" aria-hidden="true"></span>
+                  </span>
+                </label>
+
+                <label class="toggle-row compact-toggle">
+                  <span class="toggle-copy"><strong>Guides</strong></span>
+                  <span class="switch-control">
+                    <input id="guidesToggle" type="checkbox" checked />
+                    <span class="switch-ui" aria-hidden="true"></span>
+                  </span>
+                </label>
+
+                <label class="toggle-row compact-toggle">
+                  <span class="toggle-copy"><strong>Duck Reference</strong></span>
+                  <span class="switch-control">
+                    <input id="duckReferenceToggle" type="checkbox" />
+                    <span class="switch-ui" aria-hidden="true"></span>
+                  </span>
+                </label>
+              </div>
+            </div>
+
+            <div class="tray-panel" data-tray="info">
+              <div class="drawer-stack info-drawer">
+                <section class="info-card">
+                  <h3>Shortcuts</h3>
+                  <div class="shortcut-list">
+                    <div class="shortcut-item"><kbd>Q</kbd><span>Toggle pen and eraser</span></div>
+                    <div class="shortcut-item"><kbd>Alt</kbd><span>Hold to use picker</span></div>
+                    <div class="shortcut-item"><kbd>I</kbd><span>Switch to picker</span></div>
+                    <div class="shortcut-item"><kbd>G</kbd><span>Toggle pixel grid</span></div>
+                    <div class="shortcut-item"><kbd>Shift + G</kbd><span>Toggle guides</span></div>
+                    <div class="shortcut-item"><kbd>M</kbd><span>Open metapixels</span></div>
+                    <div class="shortcut-item"><kbd>F</kbd><span>Fit view</span></div>
+                    <div class="shortcut-item"><kbd>1-4</kbd><span>Open setup, tools, scene, and overlays</span></div>
+                    <div class="shortcut-item"><kbd>Ctrl/Cmd + Z</kbd><span>Undo</span></div>
+                    <div class="shortcut-item"><kbd>Ctrl/Cmd + Y</kbd><span>Redo</span></div>
+                    <div class="shortcut-item"><kbd>Esc</kbd><span>Close drawer or metapixels</span></div>
+                  </div>
+                </section>
+
+                <section class="info-card">
+                  <h3>Credits</h3>
+                  <p class="info-credit">Vibe coded with love by ElAkse. Let's bring back Duck Game!</p>
+                </section>
+              </div>
+            </div>
+          </section>
+
+          <section class="canvas-card">
+            <div class="viewport" id="viewport">
+              <div class="canvas-overlay canvas-overlay-top">
+                <span class="overlay-pill" id="activeLayerReadout">Layer 1</span>
+              </div>
+
+              <div class="particle-prompt is-hidden" id="particlePrompt">
+                <span>Particles need metapixels.</span>
+                <button id="openMetapixelsPromptBtn" class="ghost-button compact-button" type="button">Open</button>
+              </div>
+
+              <div class="meta-preview-bar canvas-meta-bar" id="metaPreview"></div>
+
+              <div class="selection-action-card is-hidden" id="selectionActionCard" aria-hidden="true">
+                <button id="selectionCopyBtn" class="ghost-button compact-button" type="button">Copy</button>
+                <button id="selectionCutBtn" class="ghost-button compact-button" type="button">Cut</button>
+                <button id="selectionDeleteBtn" class="ghost-button compact-button" type="button">Delete</button>
+              </div>
+
+              <div class="stage" id="stage">
+                <div class="stage-surface" id="stageSurface"></div>
+                <canvas id="referenceCanvas" class="reference-layer" aria-hidden="true"></canvas>
+                <canvas id="guideCanvas" class="guide-layer" aria-hidden="true"></canvas>
+                <div class="layer-stack" id="layerStack"></div>
+              </div>
+              <canvas id="overlayCanvas" aria-label="editor overlay"></canvas>
+            </div>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <div class="modal-backdrop is-hidden" id="metaModalBackdrop" aria-hidden="true">
+      <section class="meta-modal" role="dialog" aria-modal="true" aria-labelledby="metaModalTitle">
+        <header class="modal-header">
+          <div>
+            <h2 id="metaModalTitle">Metapixels</h2>
+          </div>
+
+          <div class="modal-actions">
+            <button id="closeMetaModalBtn" class="ghost-button compact-button" type="button">Close</button>
+          </div>
+        </header>
+
+        <div class="meta-modal-body">
+          <div class="meta-main">
+            <div class="meta-filter-row" id="metaCategoryFilters"></div>
+
+            <div class="meta-select-row">
+              <label class="field">
+                <span class="field-label">Metapixel</span>
+                <select id="metaDefinitionSelect"></select>
+              </label>
+            </div>
+
+            <div class="meta-details">
+              <div class="meta-summary-card">
+                <h3 id="metaDefinitionName">Choose a metapixel</h3>
+                <p id="metaDefinitionDescription" class="section-copy"></p>
+              </div>
+
+              <div class="meta-controls" id="metaControls"></div>
+            </div>
+          </div>
+
+          <aside class="meta-sidebar">
+            <section class="meta-preview-panel">
+              <h3>Active Metapixels</h3>
+              <div class="active-meta-list" id="activeMetaList"></div>
+            </section>
+          </aside>
+        </div>
+
+        <footer class="modal-footer">
+          <div class="modal-actions">
+            <button id="resetMetaBtn" class="ghost-button compact-button" type="button">Reset Selected</button>
+            <button id="doneMetaBtn" class="primary-button compact-button" type="button">Done</button>
+          </div>
+        </footer>
+      </section>
+    </div>
+
+    <input id="backgroundImageInput" type="file" accept="image/*" hidden />
+    <input id="accentThemeInput" class="stealth-color-input" type="color" value="#a54d52" aria-label="Accent Color Picker" />
+    <input id="importHatInput" type="file" accept="image/png,.png" hidden />
+
+    <script src="./app.js"></script>
+  </body>
+</html>
+
